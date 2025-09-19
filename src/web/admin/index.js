@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import styles from '../../styles/globals.css';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import styles from 'artisan-marketplace/src/web/styles/globals.css';
+import Header from 'artisan-marketplace/src/components/common/Header.js';
+import Footer from 'artisan-marketplace/src/components/common/Footer.js';
 
 // Placeholder data - In a real app, this would come from an API
 const dashboardData = {
