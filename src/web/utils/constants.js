@@ -20,6 +20,20 @@ export const COLORS = {
   glow: "rgba(255,153,153,0.35)",
   lotus: "#F6B2B2",
   lotusLight: "#FFE7E7",
+  
+  // Role-specific colors
+  client: {
+    primary: "#1e3a8a", // Blue theme for clients
+    accent: "#3b82f6",
+    background: "#eff6ff",
+    border: "rgba(30, 58, 138, 0.12)",
+  },
+  seller: {
+    primary: "#7c2d12", // Brown theme for sellers
+    accent: "#ea580c",
+    background: "#fff7ed",
+    border: "rgba(124, 45, 18, 0.12)",
+  }
 };
 
 // Typography
@@ -114,6 +128,16 @@ export const BUTTON_VARIANTS = {
     color: COLORS.primary,
     border: `1px solid ${COLORS.borderDark}`,
   },
+  client: {
+    backgroundColor: COLORS.client.primary,
+    color: COLORS.white,
+    border: `1px solid ${COLORS.client.primary}`,
+  },
+  seller: {
+    backgroundColor: COLORS.seller.primary,
+    color: COLORS.white,
+    border: `1px solid ${COLORS.seller.primary}`,
+  },
   ghost: {
     backgroundColor: "transparent",
     color: COLORS.primary,
@@ -141,13 +165,30 @@ export const BUTTON_SIZES = {
   },
 };
 
-// Navigation
-export const NAV_LINKS = [
-  { href: "#about", label: "About" },
-  { href: "#artisans", label: "Artisans" },
-  { href: "#crafts", label: "Crafts" },
-  { href: "#heritage", label: "Heritage" },
-];
+// Navigation - Role-specific
+export const NAV_LINKS = {
+  common: [
+    { href: "#about", label: "About" },
+    { href: "#artisans", label: "Artisans" },
+    { href: "#crafts", label: "Crafts" },
+    { href: "#heritage", label: "Heritage" },
+  ],
+  client: [
+    { href: "/client/browse", label: "Browse Crafts", icon: "🎨" },
+    { href: "/client/customize", label: "AI Customize", icon: "🤖" },
+    { href: "/client/orders", label: "My Orders", icon: "📦" },
+    { href: "/client/favorites", label: "Wishlist", icon: "❤️" },
+    { href: "/client/artisans", label: "Find Artisans", icon: "👥" },
+  ],
+  seller: [
+    { href: "/seller/dashboard", label: "Dashboard", icon: "📊" },
+    { href: "/seller/products", label: "My Products", icon: "🛍️" },
+    { href: "/seller/ai-enhance", label: "AI Stories", icon: "✨" },
+    { href: "/seller/orders", label: "Orders", icon: "📋" },
+    { href: "/seller/analytics", label: "Analytics", icon: "📈" },
+    { href: "/seller/profile", label: "My Studio", icon: "🏪" },
+  ]
+};
 
 // User roles
 export const USER_ROLES = {
@@ -160,6 +201,36 @@ export const ROLE_LABELS = {
   [USER_ROLES.SELLER]: "Artisan Creator",
   [USER_ROLES.CLIENT]: "Heritage Collector",
   [USER_ROLES.ADMIN]: "Administrator",
+};
+
+// Role-specific dashboard configurations
+export const DASHBOARD_CONFIG = {
+  [USER_ROLES.CLIENT]: {
+    title: "Discover Authentic Crafts",
+    subtitle: "Explore handmade treasures from master artisans",
+    primaryActions: [
+      { label: "Browse Crafts", href: "/client/browse", variant: "client" },
+      { label: "AI Customize", href: "/client/customize", variant: "outline" },
+    ],
+    quickStats: [
+      { label: "Items in Cart", key: "cartItems" },
+      { label: "Saved Items", key: "wishlistItems" },
+      { label: "Orders", key: "totalOrders" },
+    ]
+  },
+  [USER_ROLES.SELLER]: {
+    title: "Your Artisan Studio",
+    subtitle: "Share your craft with the world",
+    primaryActions: [
+      { label: "Add Product", href: "/seller/products/new", variant: "seller" },
+      { label: "AI Enhance", href: "/seller/ai-enhance", variant: "outline" },
+    ],
+    quickStats: [
+      { label: "Products", key: "totalProducts" },
+      { label: "Orders", key: "pendingOrders" },
+      { label: "Revenue", key: "monthlyRevenue" },
+    ]
+  }
 };
 
 // Stats data
@@ -199,60 +270,112 @@ export const STATS_DATA = [
 // Feature data
 export const FEATURES_DATA = [
   {
-    icon: "AI",
-    text: "Intelligent Storytelling"
+    icon: "🤖",
+    text: "AI-Powered Storytelling"
   },
   {
-    icon: "⚡",
+    icon: "🌍",
     text: "Global Marketplace"
   },
   {
-    icon: "✦",
+    icon: "✨",
     text: "Authentic Heritage"
   },
   {
-    icon: "◊",
+    icon: "🤝",
     text: "Fair Trade Promise"
   }
 ];
 
-// Feature cards data
-export const FEATURE_CARDS_DATA = [
+// Client-specific features
+export const CLIENT_FEATURES = [
   {
-    icon: "🤖",
-    title: "AI-Powered Stories",
-    desc: "Transform craft descriptions into compelling narratives that resonate with global audiences."
+    icon: "🔍",
+    title: "Smart Search",
+    desc: "Find exactly what you're looking for with AI-powered search and filters."
   },
   {
-    icon: "📸",
-    title: "Visual Storytelling",
-    desc: "Showcase artisan work through beautiful, responsive galleries optimized for discovery."
+    icon: "🎨",
+    title: "Custom Designs",
+    desc: "Work with artisans to create personalized pieces that reflect your style."
+  },
+  {
+    icon: "📱",
+    title: "Easy Ordering",
+    desc: "Seamless checkout with secure payment and order tracking."
   },
   {
     icon: "🚚",
-    title: "Seamless Logistics",
-    desc: "Integrated Porter delivery system ensuring safe, cost-effective shipping worldwide."
+    title: "Global Delivery",
+    desc: "Worldwide shipping with care and tracking for your precious purchases."
+  }
+];
+
+// Seller-specific features
+export const SELLER_FEATURES = [
+  {
+    icon: "📝",
+    title: "AI Story Generator",
+    desc: "Transform your craft descriptions into compelling stories that sell."
   },
   {
-    icon: "💬",
-    title: "Smart Connections",
-    desc: "Automated communication tools that build meaningful relationships between makers and buyers."
+    icon: "📸",
+    title: "Product Showcase",
+    desc: "Beautiful galleries to display your work with professional layouts."
+  },
+  {
+    icon: "💰",
+    title: "Fair Pricing",
+    desc: "AI-suggested pricing based on craft complexity and market demand."
+  },
+  {
+    icon: "📊",
+    title: "Sales Analytics",
+    desc: "Track your performance and understand your customers better."
+  }
+];
+
+// AI Customization Options for Clients
+export const AI_CUSTOMIZATION_OPTIONS = [
+  {
+    category: "Style",
+    options: ["Traditional", "Contemporary", "Fusion", "Minimalist", "Ornate"]
+  },
+  {
+    category: "Colors",
+    options: ["Vibrant", "Earthy", "Pastel", "Monochrome", "Custom Palette"]
+  },
+  {
+    category: "Size",
+    options: ["Small", "Medium", "Large", "Custom Dimensions"]
+  },
+  {
+    category: "Purpose",
+    options: ["Home Decor", "Gift", "Personal Use", "Commercial", "Collection"]
+  },
+  {
+    category: "Timeline",
+    options: ["Rush (1-2 weeks)", "Standard (3-4 weeks)", "Flexible (1-2 months)"]
   }
 ];
 
 // Role selection data
 export const ROLES_DATA = [
   {
-    role: USER_ROLES.SELLER,
-    title: "Artisan Creator",
-    subtitle: "Share your craft with the world",
-    description: "Join a community of master craftspeople and showcase your heritage skills to global collectors"
-  },
-  {
     role: USER_ROLES.CLIENT,
     title: "Heritage Collector",
     subtitle: "Discover authentic masterpieces",
-    description: "Explore curated collections of traditional crafts and connect directly with skilled artisans"
+    description: "Explore curated collections of traditional crafts, customize designs with AI, and connect directly with skilled artisans worldwide.",
+    features: ["Browse 500+ artisans", "AI-powered customization", "Secure global delivery", "Direct artisan chat"],
+    ctaText: "Start Exploring"
+  },
+  {
+    role: USER_ROLES.SELLER,
+    title: "Artisan Creator",
+    subtitle: "Share your craft with the world",
+    description: "Join a community of master craftspeople, showcase your heritage skills, and reach global collectors through our AI-enhanced platform.",
+    features: ["AI story generation", "Global marketplace", "Fair pricing tools", "Analytics dashboard"],
+    ctaText: "Join as Artisan"
   }
 ];
 
@@ -262,20 +385,79 @@ export const API_ENDPOINTS = {
     LOGIN: "/api/auth/login",
     LOGOUT: "/api/auth/logout",
     REFRESH: "/api/auth/refresh",
+    ROLE_SELECT: "/api/auth/role-select",
   },
   AI: {
     GENERATE_IDEAS: "/api/ai/generateIdeas",
     ENHANCE_DESCRIPTION: "/api/ai/enhanceDescription",
+    CUSTOMIZE_PRODUCT: "/api/ai/customizeProduct",
+    GENERATE_STORY: "/api/ai/generateStory",
   },
   PRODUCTS: {
     LIST: "/api/products",
     CREATE: "/api/products",
     UPDATE: "/api/products",
     DELETE: "/api/products",
+    SEARCH: "/api/products/search",
+    FEATURED: "/api/products/featured",
   },
   USERS: {
     PROFILE: "/api/users/profile",
     UPDATE_PROFILE: "/api/users/profile",
+    DASHBOARD_STATS: "/api/users/dashboard-stats",
+  },
+  ORDERS: {
+    CREATE: "/api/orders",
+    LIST: "/api/orders",
+    UPDATE_STATUS: "/api/orders/status",
+    TRACK: "/api/orders/track",
+  },
+  CHAT: {
+    CONVERSATIONS: "/api/chat/conversations",
+    MESSAGES: "/api/chat/messages",
+    SEND: "/api/chat/send",
+  }
+};
+
+// Routes configuration
+export const ROUTES = {
+  HOME: "/",
+  LOGIN: "/login",
+  SIGNUP: "/signup",
+  ROLE_SELECT: "/role-select",
+  
+  // Client routes
+  CLIENT: {
+    DASHBOARD: "/client",
+    BROWSE: "/client/browse",
+    CUSTOMIZE: "/client/customize",
+    ORDERS: "/client/orders",
+    FAVORITES: "/client/favorites",
+    ARTISANS: "/client/artisans",
+    PROFILE: "/client/profile",
+    CHAT: "/client/chat",
+  },
+  
+  // Seller routes
+  SELLER: {
+    DASHBOARD: "/seller",
+    PRODUCTS: "/seller/products",
+    PRODUCTS_NEW: "/seller/products/new",
+    PRODUCTS_EDIT: "/seller/products/:id/edit",
+    AI_ENHANCE: "/seller/ai-enhance",
+    ORDERS: "/seller/orders",
+    ANALYTICS: "/seller/analytics",
+    PROFILE: "/seller/profile",
+    CHAT: "/seller/chat",
+  },
+  
+  // Admin routes
+  ADMIN: {
+    DASHBOARD: "/admin",
+    USERS: "/admin/users",
+    PRODUCTS: "/admin/products",
+    ORDERS: "/admin/orders",
+    ANALYTICS: "/admin/analytics",
   }
 };
 
@@ -287,6 +469,7 @@ export const ERROR_MESSAGES = {
     NETWORK_ERROR: "Network error. Please check your connection.",
     GENERIC: "Sign-in failed. Please try again.",
     LOGOUT_FAILED: "Sign-out failed. Please try again.",
+    ROLE_NOT_SELECTED: "Please select your role to continue.",
   },
   FORM: {
     REQUIRED: "This field is required.",
@@ -295,12 +478,26 @@ export const ERROR_MESSAGES = {
     PASSWORDS_NO_MATCH: "Passwords do not match.",
   },
   AI: {
-    GENERATION_FAILED: "Failed to generate ideas. Please try again.",
+    GENERATION_FAILED: "Failed to generate content. Please try again.",
     DESCRIPTION_EMPTY: "Please provide a description.",
+    CUSTOMIZATION_FAILED: "Failed to generate customization. Please try again.",
+  },
+  PRODUCTS: {
+    CREATION_FAILED: "Failed to create product. Please try again.",
+    UPDATE_FAILED: "Failed to update product. Please try again.",
+    DELETE_FAILED: "Failed to delete product. Please try again.",
+    NOT_FOUND: "Product not found.",
+  },
+  ORDERS: {
+    CREATION_FAILED: "Failed to place order. Please try again.",
+    UPDATE_FAILED: "Failed to update order. Please try again.",
+    NOT_FOUND: "Order not found.",
   },
   GENERIC: {
     SOMETHING_WRONG: "Something went wrong. Please try again.",
     NETWORK_ERROR: "Network error. Please check your connection.",
+    UNAUTHORIZED: "Please login to continue.",
+    FORBIDDEN: "You don't have permission to access this resource.",
   }
 };
 
@@ -309,23 +506,57 @@ export const SUCCESS_MESSAGES = {
   AUTH: {
     LOGIN: "Successfully signed in!",
     LOGOUT: "Successfully signed out!",
+    ROLE_SELECTED: "Role selected successfully!",
   },
   FORM: {
     SAVED: "Changes saved successfully!",
     CREATED: "Created successfully!",
     UPDATED: "Updated successfully!",
     DELETED: "Deleted successfully!",
+  },
+  PRODUCTS: {
+    CREATED: "Product created successfully!",
+    UPDATED: "Product updated successfully!",
+    DELETED: "Product deleted successfully!",
+  },
+  ORDERS: {
+    PLACED: "Order placed successfully!",
+    UPDATED: "Order updated successfully!",
+  },
+  AI: {
+    STORY_GENERATED: "Story generated successfully!",
+    CUSTOMIZATION_READY: "Customization ready!",
   }
 };
 
 // Default values
 export const DEFAULT_VALUES = {
-  AI_DESCRIPTION: "Jaipuri wall art, peacock motifs, lotus glow, deep maroon/ivory palette, minimal Taj line art",
+  AI_DESCRIPTION: "Traditional Indian craft with authentic heritage techniques, premium materials, and cultural significance",
   PAGINATION: {
     PAGE_SIZE: 12,
     MAX_PAGES: 100,
+  },
+  SEARCH: {
+    DEBOUNCE_DELAY: 300,
+    MIN_QUERY_LENGTH: 2,
+  },
+  UPLOAD: {
+    MAX_FILE_SIZE: 10 * 1024 * 1024, // 10MB
+    ALLOWED_TYPES: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
   }
 };
+
+// Craft categories
+export const CRAFT_CATEGORIES = [
+  { id: 'textiles', name: 'Textiles & Fabrics', icon: '🧵' },
+  { id: 'pottery', name: 'Pottery & Ceramics', icon: '🏺' },
+  { id: 'jewelry', name: 'Jewelry & Accessories', icon: '💍' },
+  { id: 'woodwork', name: 'Woodwork & Carving', icon: '🪵' },
+  { id: 'metalwork', name: 'Metalwork & Brass', icon: '⚒️' },
+  { id: 'paintings', name: 'Paintings & Art', icon: '🎨' },
+  { id: 'home-decor', name: 'Home Decor', icon: '🏠' },
+  { id: 'musical', name: 'Musical Instruments', icon: '🎵' },
+];
 
 // Logo SVG
 export const LOGO_SVG = (
@@ -393,14 +624,19 @@ export default {
   NAV_LINKS,
   USER_ROLES,
   ROLE_LABELS,
+  DASHBOARD_CONFIG,
   STATS_DATA,
   FEATURES_DATA,
-  FEATURE_CARDS_DATA,
+  CLIENT_FEATURES,
+  SELLER_FEATURES,
+  AI_CUSTOMIZATION_OPTIONS,
   ROLES_DATA,
   API_ENDPOINTS,
+  ROUTES,
   ERROR_MESSAGES,
   SUCCESS_MESSAGES,
   DEFAULT_VALUES,
+  CRAFT_CATEGORIES,
   LOGO_SVG,
   HERITAGE_LOADER_SVG,
   HERITAGE_ART_SVG,

@@ -14,6 +14,7 @@ import AboutSection from "@/components/sections/AboutSection";
 import FeaturesSection from "@/components/sections/FeaturesSection";
 import AISection from "@/components/sections/AISection";
 import RoleSection from "@/components/sections/RoleSection";
+import ProfilePage from "@/profile/page";
 
 export default function Page() {
   const {
@@ -54,6 +55,7 @@ export default function Page() {
         handleGoogleLogin={handleGoogleLogin}
         handleLogout={handleLogout}
       />
+      {/* <ProfilePage></ProfilePage> */}
       <ErrorBanner error={error} onClose={() => setError("")} />
       <HeroSection
         user={user}
@@ -62,6 +64,7 @@ export default function Page() {
         handleLogin={handleLogin}
         handleContinue={handleContinue}
       />
+      
       <StatsSection />
       <AboutSection />
       <FeaturesSection />
