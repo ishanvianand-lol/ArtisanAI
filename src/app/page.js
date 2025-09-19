@@ -23,6 +23,8 @@ export default function Page() {
     error,
     setError,
     handleLogin,
+    handleGoogleLogin,
+    handleRegister, // Add this if any components need registration
     handleLogout,
     handleRoleSelect,
     handleContinue,
@@ -49,14 +51,10 @@ export default function Page() {
         user={user}
         loading={loading}
         handleLogin={handleLogin}
+        handleGoogleLogin={handleGoogleLogin}
         handleLogout={handleLogout}
       />
-
-      <ErrorBanner
-        error={error}
-        onClose={() => setError("")}
-      />
-
+      <ErrorBanner error={error} onClose={() => setError("")} />
       <HeroSection
         user={user}
         role={role}
@@ -64,13 +62,9 @@ export default function Page() {
         handleLogin={handleLogin}
         handleContinue={handleContinue}
       />
-
       <StatsSection />
-
       <AboutSection />
-
       <FeaturesSection />
-
       <AISection
         desc={desc}
         setDesc={setDesc}
@@ -80,14 +74,12 @@ export default function Page() {
         handleGenerateIdeas={handleGenerateIdeas}
         clearIdeas={clearIdeas}
       />
-
       <RoleSection
         user={user}
         role={role}
         handleRoleSelect={handleRoleSelect}
         handleContinue={handleContinue}
       />
-
       <Footer />
     </>
   );
