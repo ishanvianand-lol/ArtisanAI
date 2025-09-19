@@ -1,5 +1,4 @@
 "use client";
-
 import { useAuth } from "@/hooks/useAuth";
 import { useAI } from "@/hooks/useAI";
 
@@ -14,7 +13,6 @@ import AboutSection from "@/components/sections/AboutSection";
 import FeaturesSection from "@/components/sections/FeaturesSection";
 import AISection from "@/components/sections/AISection";
 import RoleSection from "@/components/sections/RoleSection";
-import ProfilePage from "@/profile/page";
 
 export default function Page() {
   const {
@@ -25,7 +23,7 @@ export default function Page() {
     setError,
     handleLogin,
     handleGoogleLogin,
-    handleRegister, // Add this if any components need registration
+    handleRegister,
     handleLogout,
     handleRoleSelect,
     handleContinue,
@@ -34,11 +32,11 @@ export default function Page() {
   const {
     desc,
     setDesc,
-    ideas,
-    ideasLoading,
-    ideasError,
-    handleGenerateIdeas,
-    clearIdeas,
+    images,
+    imagesLoading,
+    imagesError,
+    handleGenerateImages,
+    clearImages,
   } = useAI();
 
   // Loading screen
@@ -47,7 +45,7 @@ export default function Page() {
   }
 
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-pink-50">
       <Header
         user={user}
         loading={loading}
@@ -55,35 +53,44 @@ export default function Page() {
         handleGoogleLogin={handleGoogleLogin}
         handleLogout={handleLogout}
       />
-      {/* <ProfilePage></ProfilePage> */}
-      <ErrorBanner error={error} onClose={() => setError("")} />
-      <HeroSection
-        user={user}
-        role={role}
-        loading={loading}
-        handleLogin={handleLogin}
-        handleContinue={handleContinue}
-      />
       
-      <StatsSection />
-      <AboutSection />
-      <FeaturesSection />
-      <AISection
-        desc={desc}
-        setDesc={setDesc}
-        ideas={ideas}
-        ideasLoading={ideasLoading}
-        ideasError={ideasError}
-        handleGenerateIdeas={handleGenerateIdeas}
-        clearIdeas={clearIdeas}
-      />
-      <RoleSection
-        user={user}
-        role={role}
-        handleRoleSelect={handleRoleSelect}
-        handleContinue={handleContinue}
-      />
+      <ErrorBanner error={error} onClose={() => setError("")} />
+      
+      <main>
+        <HeroSection
+          user={user}
+          role={role}
+          loading={loading}
+          handleLogin={handleLogin}
+          handleContinue={handleContinue}
+        />
+        
+        <StatsSection />
+        <AboutSection />
+        <FeaturesSection />
+        
+        {/* AI Section - Only for authenticated sellers */}
+        {user && role === 'seller' && (
+          <AISection
+            desc={desc}
+            setDesc={setDesc}
+            images={images}
+            imagesLoading={imagesLoading}
+            imagesError={imagesError}
+            handleGenerateImages={handleGenerateImages}
+            clearImages={clearImages}
+          />
+        )}
+        
+        <RoleSection
+          user={user}
+          role={role}
+          handleRoleSelect={handleRoleSelect}
+          handleContinue={handleContinue}
+        />
+      </main>
+      
       <Footer />
-    </>
+    </div>
   );
 }

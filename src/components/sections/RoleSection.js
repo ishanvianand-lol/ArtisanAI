@@ -1,200 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Mock styles for demo - replace with your actual styles
-const styles = {
-  modalOverlay: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 3000,
-    padding: '1rem'
-  },
-  modal: {
-    backgroundColor: 'white',
-    borderRadius: '16px',
-    padding: '3rem 2rem',
-    width: '90%',
-    maxWidth: '600px',
-    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-    position: 'relative',
-    maxHeight: '90vh',
-    overflowY: 'auto'
-  },
-  closeBtn: {
-    position: 'absolute',
-    top: '1rem',
-    right: '1rem',
-    background: 'none',
-    border: 'none',
-    fontSize: '1.5rem',
-    cursor: 'pointer',
-    color: '#6B7280',
-    padding: '0.5rem',
-    borderRadius: '50%',
-    transition: 'background-color 0.2s'
-  },
-  roleHeader: {
-    textAlign: 'center',
-    marginBottom: '2rem'
-  },
-  sectionTitle: {
-    fontSize: '2rem',
-    fontWeight: 'bold',
-    color: '#2C1810',
-    marginBottom: '0.5rem',
-    margin: 0
-  },
-  roleSubtitle: {
-    color: '#6B7280',
-    fontSize: '1.1rem',
-    margin: 0
-  },
-  roleCards: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: '1.5rem',
-    marginBottom: '2rem'
-  },
-  roleCard: {
-    border: '2px solid #E5E7EB',
-    borderRadius: '12px',
-    padding: '2rem',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    textAlign: 'center',
-    backgroundColor: 'white',
-    position: 'relative'
-  },
-  roleCardSelected: {
-    borderColor: '#2C1810',
-    backgroundColor: '#FEF7ED',
-    boxShadow: '0 8px 25px rgba(44, 24, 16, 0.15)'
-  },
-  roleCardHover: {
-    transform: 'translateY(-4px)',
-    boxShadow: '0 12px 30px rgba(0, 0, 0, 0.1)'
-  },
-  cardIcon: {
-    width: '48px',
-    height: '48px',
-    margin: '0 auto 1rem',
-    borderRadius: '12px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '1.5rem'
-  },
-  sellerIcon: {
-    backgroundColor: '#FEF3C7',
-    color: '#92400E'
-  },
-  buyerIcon: {
-    backgroundColor: '#E0F2FE',
-    color: '#0369A1'
-  },
-  cardTitle: {
-    fontSize: '1.25rem',
-    fontWeight: 'bold',
-    color: '#2C1810',
-    marginBottom: '0.5rem',
-    margin: 0
-  },
-  cardSubtitle: {
-    color: '#8B5CF6',
-    fontSize: '0.875rem',
-    fontWeight: '500',
-    marginBottom: '0.75rem',
-    margin: 0
-  },
-  cardDescription: {
-    color: '#6B7280',
-    fontSize: '0.875rem',
-    lineHeight: '1.5',
-    margin: 0
-  },
-  checkMark: {
-    position: 'absolute',
-    top: '1rem',
-    right: '1rem',
-    width: '24px',
-    height: '24px',
-    borderRadius: '50%',
-    backgroundColor: '#10B981',
-    color: 'white',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '0.875rem'
-  },
-  continueBtn: {
-    width: '100%',
-    padding: '1rem 2rem',
-    backgroundColor: '#2C1810',
-    color: 'white',
-    border: 'none',
-    borderRadius: '8px',
-    fontSize: '1.1rem',
-    fontWeight: '600',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    marginBottom: '1rem'
-  },
-  disabledBtn: {
-    backgroundColor: '#D1D5DB',
-    color: '#9CA3AF',
-    cursor: 'not-allowed'
-  },
-  skipBtn: {
-    width: '100%',
-    padding: '0.75rem',
-    backgroundColor: 'transparent',
-    color: '#6B7280',
-    border: '1px solid #E5E7EB',
-    borderRadius: '8px',
-    fontSize: '0.9rem',
-    cursor: 'pointer',
-    transition: 'all 0.2s'
-  },
-  countdown: {
-    textAlign: 'center',
-    color: '#6B7280',
-    fontSize: '0.875rem',
-    marginBottom: '1rem'
-  },
-  mobileCards: {
-    '@media (max-width: 640px)': {
-      gridTemplateColumns: '1fr',
-      gap: '1rem'
-    }
-  }
-};
+import { styles } from "@/web/styles/components";
 
-// Role Card Component
+// Role Card Component - Fixed
 function RoleCard({ title, subtitle, description, selected, onClick, icon, iconStyle }) {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <motion.div
       style={{
         ...styles.roleCard,
-        ...(selected ? styles.roleCardSelected : {})
+        ...(selected ? styles.roleCardSelected : {}),
+        ...(isHovered ? styles.roleCardHover : {})
       }}
       onClick={onClick}
-      whileHover={styles.roleCardHover}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       whileTap={{ scale: 0.98 }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
       {selected && (
-        <div style={styles.checkMark}>
+        <motion.div 
+          style={styles.checkMark}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.2 }}
+        >
           ✓
-        </div>
+        </motion.div>
       )}
       
       <div style={{ ...styles.cardIcon, ...iconStyle }}>
@@ -208,19 +44,30 @@ function RoleCard({ title, subtitle, description, selected, onClick, icon, iconS
   );
 }
 
-export default function RoleSelectionModal({ user, role, handleRoleSelect, handleContinue, onSkip }) {
-  const [showModal, setShowModal] = useState(false);
+export default function RoleSelectionModal({ 
+  user, 
+  role, 
+  handleRoleSelect, 
+  handleContinue, 
+  onSkip,
+  isOpen = false // Add explicit isOpen prop
+}) {
+  const [showModal, setShowModal] = useState(isOpen);
   const [selectedRole, setSelectedRole] = useState(role);
   const [countdown, setCountdown] = useState(5);
+  const [showCountdown, setShowCountdown] = useState(false);
 
-  // Show modal after user logs in and doesn't have a role
+  // Fixed useEffect for modal visibility
   useEffect(() => {
     if (user && !role) {
-      // Start countdown
+      setShowCountdown(true);
+      setCountdown(5);
+      
       const countdownInterval = setInterval(() => {
         setCountdown((prev) => {
           if (prev <= 1) {
             clearInterval(countdownInterval);
+            setShowCountdown(false);
             setShowModal(true);
             return 0;
           }
@@ -228,84 +75,122 @@ export default function RoleSelectionModal({ user, role, handleRoleSelect, handl
         });
       }, 1000);
 
-      return () => clearInterval(countdownInterval);
+      return () => {
+        clearInterval(countdownInterval);
+      };
     } else {
       setShowModal(false);
+      setShowCountdown(false);
       setCountdown(5);
     }
   }, [user, role]);
 
-  // Reset countdown when user changes
+  // Sync selectedRole with prop changes
   useEffect(() => {
-    if (!user) {
-      setCountdown(5);
-      setShowModal(false);
-    }
-  }, [user]);
+    setSelectedRole(role);
+  }, [role]);
 
-  const handleRoleClick = (roleType) => {
-    setSelectedRole(roleType);
-    handleRoleSelect(roleType);
-  };
-
-  const handleContinueClick = () => {
-    if (selectedRole) {
-      handleContinue();
-      setShowModal(false);
+  // Handle role selection
+  const handleRoleClick = async (roleType) => {
+    try {
+      setSelectedRole(roleType);
+      if (handleRoleSelect) {
+        await handleRoleSelect(roleType);
+      }
+    } catch (error) {
+      console.error('Error selecting role:', error);
+      setSelectedRole(null);
     }
   };
 
+  // Handle continue action
+  const handleContinueClick = async () => {
+    if (!selectedRole) return;
+    
+    try {
+      if (handleContinue) {
+        const result = await handleContinue();
+        if (result?.success) {
+          setShowModal(false);
+        }
+      } else {
+        setShowModal(false);
+      }
+    } catch (error) {
+      console.error('Error continuing:', error);
+    }
+  };
+
+  // Handle skip action
   const handleSkip = () => {
     setShowModal(false);
-    if (onSkip) onSkip();
+    setShowCountdown(false);
+    if (onSkip) {
+      onSkip();
+    }
   };
 
-  // Don't show if no user or user already has a role
-  if (!user || role) return null;
+  // Handle backdrop click
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      handleSkip();
+    }
+  };
 
-  // Show countdown while waiting
-  if (!showModal && countdown > 0) {
+  // Don't render anything if no user
+  if (!user) return null;
+
+  // Show countdown
+  if (showCountdown && countdown > 0) {
     return (
-      <motion.div
-        style={{
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          color: 'white',
-          padding: '1rem 2rem',
-          borderRadius: '8px',
-          zIndex: 2500,
-          textAlign: 'center'
-        }}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-      >
-        <p style={{ margin: 0, fontSize: '1.1rem' }}>
-          Welcome! Role selection opening in {countdown}...
-        </p>
-      </motion.div>
+      <AnimatePresence>
+        <motion.div
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            color: 'white',
+            padding: '1rem 2rem',
+            borderRadius: '8px',
+            zIndex: 2500,
+            textAlign: 'center'
+          }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+        >
+          <p style={{ margin: 0, fontSize: '1.1rem' }}>
+            Welcome! Role selection opening in {countdown}...
+          </p>
+        </motion.div>
+      </AnimatePresence>
     );
   }
 
+  // Main modal
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {showModal && (
         <motion.div
           style={styles.modalOverlay}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          onClick={(e) => e.target === e.currentTarget && handleSkip()}
+          onClick={handleBackdropClick}
+          key="modal-overlay"
         >
           <motion.div
             style={styles.modal}
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ duration: 0.3 }}
+            transition={{ 
+              duration: 0.3,
+              ease: "easeInOut"
+            }}
+            onClick={(e) => e.stopPropagation()}
           >
             <button
               style={styles.closeBtn}

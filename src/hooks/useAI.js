@@ -1,59 +1,77 @@
-import { useState, useMemo } from "react";
+"use client";
+import { useState, useCallback } from 'react';
 
 export function useAI() {
-  const [desc, setDesc] = useState(
-    "Jaipuri wall art, peacock motifs, lotus glow, deep maroon/ivory palette, minimal Taj line art"
-  );
-  const [ideasRaw, setIdeasRaw] = useState("");
-  const [ideasLoading, setIdeasLoading] = useState(false);
-  const [ideasError, setIdeasError] = useState("");
+  const [desc, setDesc] = useState('');
+  const [images, setImages] = useState([]);
+  const [imagesLoading, setImagesLoading] = useState(false);
+  const [imagesError, setImagesError] = useState('');
 
-  // Parse AI ideas to bullets
-  const ideas = useMemo(() => {
-    if (!ideasRaw) return [];
-    // Split by lines/numbers/bullets
-    return ideasRaw
-      .split(/\n+/)
-      .map((s) => s.replace(/^\s*[\-\*\d\.\)]\s*/, "").trim())
-      .filter(Boolean)
-      .slice(0, 10);
-  }, [ideasRaw]);
-
-  const handleGenerateIdeas = async () => {
-    setIdeasLoading(true);
-    setIdeasError("");
-    setIdeasRaw("");
-    try {
-      const res = await fetch("/api/ai/generateIdeas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ description: desc }),
-      });
-      if (!res.ok) {
-        const j = await res.json().catch(() => ({}));
-        throw new Error(j?.error || "Failed to generate ideas");
-      }
-      const data = await res.json();
-      setIdeasRaw(data.ideas || "");
-    } catch (e) {
-      setIdeasError(e.message || "Something went wrong");
-    } finally {
-      setIdeasLoading(false);
+  const handleGenerateImages = useCallback(async () => {
+    if (!desc.trim()) {
+      setImagesError('Please enter a description for your craft idea');
+      return;
     }
-  };
 
-  const clearIdeas = () => {
-    setIdeasRaw("");
-    setIdeasError("");
-  };
+    if (desc.trim().length < 10) {
+      setImagesError('Please provide a more detailed description (at least 10 characters)');
+      return;
+    }
+
+    setImagesLoading(true);
+    setImagesError('');
+
+    try {
+      const response = await fetch('/api/ai/generateImages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ description: desc.trim() }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `Server error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (!data.images || !Array.isArray(data.images)) {
+        throw new Error('Invalid response format from server');
+      }
+
+      setImages(data.images);
+      
+      // Clear any previous errors
+      setImagesError('');
+      
+    } catch (error) {
+      console.error('Error generating images:', error);
+      setImagesError(error.message || 'Failed to generate images. Please try again.');
+    } finally {
+      setImagesLoading(false);
+    }
+  }, [desc]);
+
+  const clearImages = useCallback(() => {
+    setImages([]);
+    setImagesError('');
+    setDesc('');
+  }, []);
+
+  const addToDescription = useCallback((text) => {
+    setDesc(prev => prev + (prev ? ', ' : '') + text);
+  }, []);
 
   return {
     desc,
     setDesc,
-    ideas,
-    ideasLoading,
-    ideasError,
-    handleGenerateIdeas,
-    clearIdeas,
+    images,
+    imagesLoading,
+    imagesError,
+    handleGenerateImages,
+    clearImages,
+    addToDescription, // Additional helper function
   };
 }

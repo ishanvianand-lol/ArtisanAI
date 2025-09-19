@@ -137,7 +137,7 @@ export default function AISection({
                     'Generate Ideas'
                   )}
                 </button>
-                {ideas.length > 0 && (
+                {ideas && ideas.length > 0 && (
                   <button
                     onClick={clearIdeas}
                     className="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-400"
@@ -162,7 +162,7 @@ export default function AISection({
                     'Generate Free Images'
                   )}
                 </button>
-                {images.length > 0 && (
+                {images && images.length > 0 && (
                   <button
                     onClick={clearImages}
                     className="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-400"
@@ -183,7 +183,7 @@ export default function AISection({
                 </div>
               )}
               
-              {ideas.length > 0 && (
+              {ideas && ideas.length > 0 && (
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-gray-800">
                     Artisan Craft Ideas for Your Corner:
@@ -222,7 +222,7 @@ export default function AISection({
                 </div>
               )}
               
-              {images.length > 0 && (
+              {images && images.length > 0 && (
                 <div className="space-y-6">
                   <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold text-gray-800">
