@@ -1,14 +1,13 @@
 import { Inter, Open_Sans } from 'next/font/google';
 import './globals.css';
+import AuthProvider from '@/components/AuthProvider';
 
-// Clean, modern font similar to Calibri
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
 });
 
-// Soft, rounded alternative
 const openSans = Open_Sans({
   subsets: ['latin'],
   variable: '--font-open-sans',
@@ -24,7 +23,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${openSans.variable}`}>
       <body>
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

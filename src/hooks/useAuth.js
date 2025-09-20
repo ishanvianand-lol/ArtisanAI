@@ -334,7 +334,7 @@ export function useAuth() {
       success: true, 
       user, 
       role,
-      redirectPath: role === 'seller' ? '/seller/dashboard' : '/client/dashboard'
+      redirectPath: role === 'seller' ? '/web/seller/dashboard' : '/web/client/dashboard'
     };
   };
   
